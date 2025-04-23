@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1019264195982",
+    "firebase_url": "https://seth-login-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "seth-login",
+    "storage_bucket": "seth-login.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019264195982:android:08559a1b4b6fc645f7d8df",
+        "android_client_info": {
+          "package_name": "com.example.mylogin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGRW2MXFT03UZId15t6mVTeMSHzdQ01k8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

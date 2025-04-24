@@ -30,6 +30,20 @@ class _LoginDetailsState extends State<LoginDetails> {
 
   String? _loggedInEmail;
 
+  void setupOnlinePresence(User user) {
+    final statusRef = FirebaseDatabase.instance.ref("users/${user.uid}/status");
+    final connectedRef = FirebaseDatabase.instance.ref(".info/connected");
+
+    connectedRef.onValue.listen((event) {
+      final connected = event.snapshot.value as bool? ?? false;
+
+      if (connected) {
+        statusRef.onDisconnect().set("offline");
+        statusRef.set("online");
+      }
+    });
+  }
+
   Future<void> loginUser() async {
     try {
       final auth = FirebaseAuth.instance;
@@ -43,6 +57,7 @@ class _LoginDetailsState extends State<LoginDetails> {
       });
 
       final user = userCredential.user!;
+      setupOnlinePresence(user);
       final userRef = FirebaseDatabase.instance.ref("users/${user.uid}");
       final snapshot = await userRef.get();
 
@@ -63,6 +78,10 @@ class _LoginDetailsState extends State<LoginDetails> {
   Future<void> logoutUser() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      await FirebaseDatabase.instance
+          .ref("users/${user.uid}/status")
+          .set("offline");
+
       await FirebaseAuth.instance.signOut();
       ScaffoldMessenger.of(
         context,

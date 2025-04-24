@@ -33,6 +33,19 @@ class _LoginDetailsState extends State<LoginDetails> {
 
   String? _loggedInEmail;
 
+  @override
+  void initState() {
+    debugPrint("Initialize User $_loggedInEmail");
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    debugPrint("Dispose User $_loggedInEmail");
+    super.dispose();
+  }
+
   Future<void> loginUser() async{
     try{
       final auth = FirebaseAuth.instance;

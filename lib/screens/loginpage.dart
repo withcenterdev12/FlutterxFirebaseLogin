@@ -31,6 +31,14 @@ class _LoginDetailsState extends State<LoginDetails> {
 
   String? _loggedInEmail;
 
+  @override
+  void dispose() {
+    // Clean up the controllers when the widget is removed
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   // Function to change online presence when logged in or logged out
   // Using onDisconnect, the status will also be changed on disconnection
   void setupOnlinePresence(User user) {

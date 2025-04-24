@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mylogin/screens/usersonline.dart';
 import 'screens/loginpage.dart';
 import 'screens/homepage.dart';
 import 'screens/register.dart';
@@ -6,15 +7,11 @@ import 'screens/profile.dart';
 
 final router = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomePage(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const HomePage()),
     GoRoute(
       path: LoginPage.routeName,
       name: LoginPage.routeName,
       builder: (context, state) => const LoginPage(),
-
     ),
     GoRoute(
       path: RegisterPage.routeName,
@@ -24,6 +21,12 @@ final router = GoRouter(
     GoRoute(
       path: ProfilePage.routeName,
       name: ProfilePage.routeName,
-      builder:(context, state) => const ProfilePage(),),
-  ]
+      builder: (context, state) => const ProfilePage(),
+    ),
+    GoRoute(
+      path: OnlineUsers.routeName,
+      name: OnlineUsers.routeName,
+      builder: (context, state) => const OnlineUsers(),
+    ),
+  ],
 );

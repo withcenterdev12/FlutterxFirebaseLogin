@@ -4,6 +4,7 @@ import 'package:mylogin/screens/loginpage.dart';
 import 'package:mylogin/screens/register.dart';
 import 'package:mylogin/screens/user.listener.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mylogin/screens/usersonline.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,6 +66,12 @@ class _HomePageState extends State<HomePage> {
                 context.push(RegisterPage.routeName);
               },
               child: Text('Register'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.push(OnlineUsers.routeName);
+              },
+              child: Text('Online Users'),
             ),
           ],
         ),

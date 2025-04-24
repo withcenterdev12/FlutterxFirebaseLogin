@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class UserController with ChangeNotifier {
-  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref().child('users');
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref().child(
+    'users',
+  );
 
   List<Map<String, dynamic>> _users = [];
 
@@ -11,10 +13,7 @@ class UserController with ChangeNotifier {
   /// CREATE: Register a new user
   Future<void> registerUser(String username, String password) async {
     final newUserRef = _dbRef.push();
-    await newUserRef.set({
-      'username': username,
-      'password': password, 
-    });
+    await newUserRef.set({'username': username, 'password': password});
   }
 
   /// READ: Fetch all users
@@ -22,15 +21,16 @@ class UserController with ChangeNotifier {
     final snapshot = await _dbRef.get();
     final Map data = snapshot.value as Map? ?? {};
 
-    _users = data.entries.map((e) {
-      final key = e.key;
-      final value = e.value as Map;
-      return {
-        'id': key,
-        'username': value['username'],
-        'password': value['password'],
-      };
-    }).toList();
+    _users =
+        data.entries.map((e) {
+          final key = e.key;
+          final value = e.value as Map;
+          return {
+            'id': key,
+            'username': value['username'],
+            'password': value['password'],
+          };
+        }).toList();
 
     notifyListeners();
   }

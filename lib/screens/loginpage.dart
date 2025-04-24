@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mylogin/screens/profile.dart';
 
 class LoginPage extends StatelessWidget {
   static const String routeName = '/loginpage';
@@ -85,6 +87,7 @@ class _LoginDetailsState extends State<LoginDetails> {
       TextField(controller: _passwordController, obscureText: true),
       ElevatedButton(onPressed: loginUser, child: Text('Login')),
       ElevatedButton(onPressed: logoutUser, child: Text('Logout')),
+      ElevatedButton(onPressed: () {context.push(ProfilePage.routeName);}, child: Text('Profile'),),
       Text(
       _loggedInEmail != null ? 'Logged in as $_loggedInEmail' : 'No user currently logged in'
       )

@@ -46,6 +46,20 @@ class _LoginDetailsState extends State<LoginDetails> {
     }
   }
 
+  Future<void> logoutUser() async{
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null){
+      await FirebaseAuth.instance.signOut();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Logged Out ${user.email}")));
+    } else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No User Logged in'))
+      );
+    }
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(child: Column(children: [
@@ -53,7 +67,8 @@ class _LoginDetailsState extends State<LoginDetails> {
       TextField( controller: _emailController, keyboardType: TextInputType.emailAddress,),
       Text('Password'),
       TextField(controller: _passwordController, obscureText: true),
-      ElevatedButton(onPressed: loginUser, child: Text('Login'))
+      ElevatedButton(onPressed: loginUser, child: Text('Login')),
+      ElevatedButton(onPressed: logoutUser, child: Text('Logout'))
     ],));
   }
 }

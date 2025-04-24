@@ -9,6 +9,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = FirebaseAuth.instance.currentUser;
-    return Scaffold(appBar: AppBar(title: Text('Profile Page ${name!.email}')));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          name != null ? 'Profile Page ${name!.email}' : 'Not logged in',
+        ),
+      ),
+    );
   }
 }

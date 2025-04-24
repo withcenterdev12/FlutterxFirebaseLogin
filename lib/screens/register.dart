@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/usercontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/registrationpage';
@@ -26,27 +27,40 @@ class _RegisterPageState extends State<RegisterPage> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    if (email.isEmpty || password.isEmpty){
+    if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content:Text('Email and Password cannot be empty')),
+        SnackBar(content: Text('Email and Password cannot be empty')),
       );
-      return;}
-
-    try{
-      final auth = FirebaseAuth.instance;
-      final userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User registered: ${userCredential.user!.email}')));
-
-        _emailController.clear();
-        _passwordController.clear();
-    } catch(e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration Failed'))
-      );
+      return;
     }
 
+    try {
+      final auth = FirebaseAuth.instance;
+      final userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final db = FirebaseDatabase.instance;
+      final user = userCredential.user!;
+
+      await db.ref("users/${user.uid}").set({
+        "email": user.email,
+        "status": "online",
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('User registered: ${userCredential.user!.email}'),
+        ),
+      );
+
+      _emailController.clear();
+      _passwordController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Registration Failed')));
+    }
   }
 
   //   await Provider.of<UserController>(context, listen: false)
@@ -72,15 +86,9 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(controller: _emailController),
             const SizedBox(height: 16),
             const Text('Password:'),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-            ),
+            TextField(controller: _passwordController, obscureText: true),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submit,
-              child: const Text('Submit'),
-            ),
+            ElevatedButton(onPressed: _submit, child: const Text('Submit')),
           ],
         ),
       ),

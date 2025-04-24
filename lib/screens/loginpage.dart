@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mylogin/screens/profile.dart';
 
@@ -40,6 +41,14 @@ class _LoginDetailsState extends State<LoginDetails> {
       setState(() {
         _loggedInEmail = userCredential.user!.email;
       });
+
+      final user = userCredential.user!;
+      final userRef = FirebaseDatabase.instance.ref("users/${user.uid}");
+      final snapshot = await userRef.get();
+
+      if (!snapshot.exists) {
+        await userRef.set({"email": user.email, "status": "online"});
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Logged in as ${userCredential.user!.email}")),
@@ -86,7 +95,11 @@ class _LoginDetailsState extends State<LoginDetails> {
             },
             child: Text('Profile'),
           ),
-          Text('Logged in as: ${user?.email}'),
+          Text(
+            user != null
+                ? 'Logged in as: ${user?.email}'
+                : 'No user is logged in',
+          ),
         ],
       ),
     );

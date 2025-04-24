@@ -25,24 +25,35 @@ class LoginDetails extends StatefulWidget {
 }
 
 class _LoginDetailsState extends State<LoginDetails> {
+  // Gets the email and password, then gives it to the controller
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   String? _loggedInEmail;
 
+  // Function to change online presence when logged in or logged out
+  // Using onDisconnect, the status will also be changed on disconnection
   void setupOnlinePresence(User user) {
+    // Gets the user status from the RTDB
     final statusRef = FirebaseDatabase.instance.ref("users/${user.uid}/status");
+    // Gets the connected users using a special path .info/connected
     final connectedRef = FirebaseDatabase.instance.ref(".info/connected");
 
+    // Listens to changes in the .info/connected
     connectedRef.onValue.listen((event) {
+      // takes the value as bool, can be null and if null, pretend it's false (??)
       final connected = event.snapshot.value as bool? ?? false;
 
+      // If connected, it will be offline on disconnect
+      // The status will be set to online
       if (connected) {
         statusRef.onDisconnect().set("offline");
         statusRef.set("online");
       }
     });
   }
+
+  // Logs in the user using Firebase's signInWithEmailAndPassword
 
   Future<void> loginUser() async {
     try {
@@ -52,12 +63,16 @@ class _LoginDetailsState extends State<LoginDetails> {
         password: _passwordController.text,
       );
 
+      // sets the value/ state of email using the logged in email
       setState(() {
         _loggedInEmail = userCredential.user!.email;
       });
 
+      // The user calls setupOnlinePresence for the user
       final user = userCredential.user!;
       setupOnlinePresence(user);
+
+      // Declares variables to register the email of not yet on the RTDB but on Auth
       final userRef = FirebaseDatabase.instance.ref("users/${user.uid}");
       final snapshot = await userRef.get();
 
@@ -76,6 +91,7 @@ class _LoginDetailsState extends State<LoginDetails> {
   }
 
   Future<void> logoutUser() async {
+    // Logs out user and then sets offline on RTDB
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseDatabase.instance

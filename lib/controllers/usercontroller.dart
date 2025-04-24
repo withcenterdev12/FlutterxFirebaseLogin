@@ -13,7 +13,7 @@ class UserController with ChangeNotifier {
     final newUserRef = _dbRef.push();
     await newUserRef.set({
       'username': username,
-      'password': password, // ❗️Note: Insecure for real apps
+      'password': password, 
     });
   }
 

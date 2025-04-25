@@ -11,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  // Accesses the value on the fields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -22,9 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _submit() async {
+    // Gets the text value of the email and password controller
     final email = _emailController.text;
     final password = _passwordController.text;
 
+    // Check's if either field is empty
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Email and Password cannot be empty')),
@@ -32,20 +35,27 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
+    // makes an instance that creates a new user with email and password
+    // this is saved to Firebase Auth
+    // This also automatically logs in the user
     try {
       final auth = FirebaseAuth.instance;
       final userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Get's the database instance
       final db = FirebaseDatabase.instance;
       final user = userCredential.user!;
-
+      // Uses set and await to asynchronously register the new user to the
+      // RTDB's users field
       await db.ref("users/${user.uid}").set({
         "email": user.email,
         "status": "online",
       });
 
+      // Shows the user through the UI that the regustration is a success
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('User registered: ${userCredential.user!.email}'),
@@ -61,6 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  // The UI for registration
   @override
   Widget build(BuildContext context) {
     return Scaffold(

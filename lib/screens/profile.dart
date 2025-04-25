@@ -14,6 +14,7 @@ class ProfilePage extends StatelessWidget {
           name != null ? 'Profile Page ${name.email}' : 'Not logged in',
         ),
       ),
+      body: Column(children: [Text('Hello ${name?.email}')]),
     );
   }
 }

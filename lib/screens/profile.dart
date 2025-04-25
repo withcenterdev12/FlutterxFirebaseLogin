@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'loginpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -12,7 +11,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          name != null ? 'Profile Page ${name!.email}' : 'Not logged in',
+          name != null ? 'Profile Page ${name.email}' : 'Not logged in',
         ),
       ),
     );

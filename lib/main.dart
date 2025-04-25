@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mylogin/controllers/usercontroller.dart';
 import 'firebase_options.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'router.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_design_system/easy_design_system.dart';

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mylogin/screens/loginpage.dart';
-import 'package:mylogin/screens/register.dart';
-import 'package:mylogin/screens/user.listener.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mylogin/screens/usersonline.dart';
+import 'loginpage.dart';
+import 'register.dart';
+import 'usersonline.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

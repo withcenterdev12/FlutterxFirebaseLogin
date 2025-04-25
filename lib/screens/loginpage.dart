@@ -29,8 +29,6 @@ class _LoginDetailsState extends State<LoginDetails> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String? _loggedInEmail;
-
   @override
   void dispose() {
     // Clean up the controllers when the widget is removed
@@ -70,11 +68,6 @@ class _LoginDetailsState extends State<LoginDetails> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-
-      // sets the value/ state of email using the logged in email
-      setState(() {
-        _loggedInEmail = userCredential.user!.email;
-      });
 
       // The user calls setupOnlinePresence for the user
       final user = userCredential.user!;
@@ -140,7 +133,7 @@ class _LoginDetailsState extends State<LoginDetails> {
           ),
           Text(
             user != null
-                ? 'Logged in as: ${user?.email}'
+                ? 'Logged in as: ${user.email}'
                 : 'No user is logged in',
           ),
         ],

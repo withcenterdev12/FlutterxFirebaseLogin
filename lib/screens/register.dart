@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../controllers/usercontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -62,17 +60,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ).showSnackBar(SnackBar(content: Text('Registration Failed')));
     }
   }
-
-  //   await Provider.of<UserController>(context, listen: false)
-  //       .registerUser(email, password);
-
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text('User registered!')),
-  //   );
-
-  //   _emailController.clear();
-  //   _passwordController.clear();
-  // }
 
   @override
   Widget build(BuildContext context) {
